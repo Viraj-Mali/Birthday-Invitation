@@ -9,7 +9,9 @@ const FamilySection = () => {
   const visible = expanded ? family.members : family.members.slice(0, 2);
 
   return (
-    <section className="py-16 px-4" style={{ background: 'linear-gradient(180deg, #EDF2ED 0%, #FAF7F0 100%)' }}>
+    <section className="py-16 px-4" style={{
+      background: 'linear-gradient(180deg, hsl(155,40%,96%) 0%, hsl(47,50%,96%) 100%)',
+    }}>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -18,24 +20,43 @@ const FamilySection = () => {
         className="max-w-xl mx-auto text-center"
       >
         {/* Label */}
-        <p className="font-lora text-xs tracking-[0.35em] uppercase mb-3" style={{ color: 'var(--color-gold-dark)' }}>
-          Our Families
+        <p style={{
+          fontFamily: 'var(--font-display)', fontWeight: 700,
+          fontSize: 12, letterSpacing: '0.35em', textTransform: 'uppercase',
+          color: 'hsl(340,75%,55%)', marginBottom: 12,
+        }}>
+          🎊 With Love From
         </p>
-        <h2 className="font-serif text-3xl sm:text-4xl font-medium mb-2" style={{ color: 'var(--color-choco)' }}>
+
+        <h2 style={{
+          fontFamily: 'var(--font-accent)',
+          fontSize: 'clamp(1.8rem, 6vw, 2.6rem)',
+          color: 'hsl(275,55%,38%)',
+          marginBottom: 8,
+        }}>
           {family.heading}
         </h2>
+
         <div className="gold-divider my-6">
-          <span style={{ color: 'var(--color-gold)' }}>✦</span>
+          <span style={{ fontSize: 20 }}>🎀</span>
         </div>
 
-        {/* Main family line */}
+        {/* Main family card */}
         <div className="invitation-card px-8 py-8 mb-6">
-          <span className="text-3xl mb-4 block">🌺</span>
-          <p className="font-serif text-xl sm:text-2xl font-medium mb-1" style={{ color: 'var(--color-choco)' }}>
+          <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>👨‍👩‍👧</span>
+          <p style={{
+            fontFamily: 'var(--font-accent)',
+            fontSize: 'clamp(1.2rem, 4vw, 1.7rem)',
+            color: 'hsl(275,50%,38%)',
+            marginBottom: 8,
+          }}>
             {family.mainLine}
           </p>
-          <p className="font-lora italic text-sm mt-2" style={{ color: 'var(--color-sage)' }}>
-            joyfully invite you to celebrate
+          <p style={{
+            fontFamily: 'var(--font-body)', fontWeight: 600,
+            fontSize: 14, color: 'hsl(340,65%,55%)',
+          }}>
+            joyfully invites you to celebrate! 🎈
           </p>
         </div>
 
@@ -49,11 +70,19 @@ const FamilySection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ delay: i * 0.08 }}
-                className="invitation-card px-6 py-4"
+                className="invitation-card px-6 py-4 flex items-center gap-3 justify-center"
               >
-                <p className="font-lora text-base" style={{ color: 'var(--color-choco)' }}>{m.name}</p>
+                <span style={{ fontSize: 20 }}>
+                  {i === 0 ? '👨‍👩‍👧' : i === 1 ? '👴👵' : i === 2 ? '👴👵' : i === 3 ? '👨‍👩‍👦' : '🎉'}
+                </span>
+                <p style={{
+                  fontFamily: 'var(--font-body)', fontWeight: 700,
+                  fontSize: 15, color: 'hsl(275,40%,35%)',
+                }}>
+                  {m.name}
+                </p>
                 {m.phone && (
-                  <a href={`tel:${m.phone}`} className="font-lora text-sm mt-1 block" style={{ color: 'var(--color-sage)' }}>
+                  <a href={`tel:${m.phone}`} style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'hsl(340,70%,55%)' }}>
                     {m.phone}
                   </a>
                 )}
@@ -65,10 +94,14 @@ const FamilySection = () => {
         {family.members.length > 2 && (
           <button
             onClick={() => setExpanded(!expanded)}
-            className="mt-5 flex items-center gap-2 mx-auto font-lora italic text-sm transition-colors"
-            style={{ color: 'var(--color-gold-dark)' }}
+            className="mt-5 flex items-center gap-2 mx-auto transition-colors"
+            style={{
+              fontFamily: 'var(--font-body)', fontWeight: 700,
+              fontSize: 14, color: 'hsl(340,75%,55%)',
+              background: 'none', border: 'none', cursor: 'pointer',
+            }}
           >
-            {expanded ? <><ChevronUp size={16}/> Show Less</> : <><ChevronDown size={16}/> View All Invitees</>}
+            {expanded ? <><ChevronUp size={18}/> Show Less</> : <><ChevronDown size={18}/> View All Hosts</>}
           </button>
         )}
       </motion.div>

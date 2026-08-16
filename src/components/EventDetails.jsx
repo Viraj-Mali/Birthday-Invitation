@@ -3,158 +3,167 @@ import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';
 import { weddingData } from '../data/index.js';
 
-/* ── Custom Borders per Theme ── */
-const HaldiBorder = () => (
-  <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none opacity-60">
-    <rect x="3" y="3" width="94" height="94" rx="2" stroke="#C9A84C" strokeWidth="0.5" fill="none"/>
-    <rect x="5" y="5" width="90" height="90" rx="2" stroke="#C9A84C" strokeWidth="1" strokeDasharray="1 1" fill="none"/>
+/* ── Fun squiggly border per event ── */
+const CandyBorder = ({ color }) => (
+  <svg viewBox="0 0 100 100" preserveAspectRatio="none"
+    className="absolute inset-0 w-full h-full pointer-events-none opacity-60">
+    <rect x="4" y="4" width="92" height="92" rx="14"
+      stroke={color} strokeWidth="1.5" strokeDasharray="5 3" fill="none"/>
+    {/* Corner dots */}
+    <circle cx="10" cy="10" r="3" fill={color} opacity="0.6"/>
+    <circle cx="90" cy="10" r="3" fill={color} opacity="0.6"/>
+    <circle cx="10" cy="90" r="3" fill={color} opacity="0.6"/>
+    <circle cx="90" cy="90" r="3" fill={color} opacity="0.6"/>
   </svg>
 );
 
-const MehendiBorder = () => (
-  <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none opacity-70">
-    <rect x="4" y="4" width="92" height="92" rx="3" stroke="#43AA8B" strokeWidth="0.6" fill="none"/>
-    <path d="M4 15 Q15 15 15 4 M85 4 Q85 15 96 15 M96 85 Q85 85 85 96 M15 96 Q15 85 4 85" stroke="#43AA8B" strokeWidth="0.8" fill="none"/>
-    <circle cx="9" cy="9" r="1.5" fill="#43AA8B"/>
-    <circle cx="91" cy="9" r="1.5" fill="#43AA8B"/>
-    <circle cx="9" cy="91" r="1.5" fill="#43AA8B"/>
-    <circle cx="91" cy="91" r="1.5" fill="#43AA8B"/>
-  </svg>
-);
-
-const WeddingBorder = () => (
-  <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none opacity-80">
-    <rect x="4" y="4" width="92" height="92" rx="4" stroke="#A07830" strokeWidth="0.8" fill="none"/>
-    <path d="M4 10 L10 4 M90 4 L96 10 M4 90 L10 96 M90 96 L96 90" stroke="#A07830" strokeWidth="0.8"/>
-  </svg>
-);
-
-/* ── Floral Motif SVG ── */
-const FloralMotif = ({ color, style }) => (
-  <svg viewBox="0 0 40 40" className="absolute opacity-80" style={{ width: 40, height: 40, ...style }}>
-    <path d="M20 5 Q30 15 20 25 Q10 15 20 5" fill={color}/>
-    <path d="M5 20 Q15 10 25 20 Q15 30 5 20" fill={color}/>
-    <circle cx="20" cy="20" r="3" fill="#FFF" opacity="0.5"/>
-  </svg>
-);
-
-/* ── Event Poster Component ── */
+/* ── Event Poster Card ── */
 const EventPoster = ({ event, index }) => {
-  const isHaldi = event.id === 'haldi';
-  const isMehendi = event.id === 'mehendi';
-  const isWedding = event.id === 'wedding';
   const [imgError, setImgError] = React.useState(false);
-  
-  // Theme Variables
-  const themeClass = isHaldi ? 'theme-haldi' : isMehendi ? 'theme-mehendi' : 'theme-wedding';
-  const textColor = isHaldi ? '#5C4010' : isMehendi ? '#2D5A40' : '#4A2C1A';
-  const accentColor = isHaldi ? '#A07830' : isMehendi ? '#43AA8B' : '#7B2D2D';
-  const hashtag = isHaldi ? '#AuraOfYellow' : isMehendi ? '#PrasadSamikshaMehendi' : '#PrasadSamikshaWedding';
-  const subtitle = isHaldi ? "A splash of yellow, a touch of love" : isMehendi ? "Filled with colors, joy, and the fragrance of mehendi." : "Where traditions meet eternal love";
-  
+
+  const themes = [
+    {
+      id: 'arrival',
+      bg: 'hsl(155,50%,95%)',
+      accent: 'hsl(155,65%,45%)',
+      text: 'hsl(155,50%,28%)',
+      border: 'hsl(155,65%,60%)',
+      emoji: '🎮',
+      themeClass: 'theme-haldi',
+    },
+    {
+      id: 'cake',
+      bg: 'hsl(340,60%,96%)',
+      accent: 'hsl(340,80%,55%)',
+      text: 'hsl(340,50%,30%)',
+      border: 'hsl(340,80%,70%)',
+      emoji: '🎂',
+      themeClass: 'theme-mehendi',
+    },
+    {
+      id: 'dinner',
+      bg: 'hsl(47,70%,96%)',
+      accent: 'hsl(47,80%,45%)',
+      text: 'hsl(47,55%,28%)',
+      border: 'hsl(47,90%,60%)',
+      emoji: '🍽️',
+      themeClass: 'theme-wedding',
+    },
+  ];
+
+  const theme = themes[index] || themes[0];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 1.2, delay: index * 0.2, ease: [0.4, 0, 0.2, 1] }}
-      className={`poster-card ${themeClass} flex flex-col items-center mx-auto`}
-      style={{ 
-        width: 'min(92vw, 540px)', 
-        minHeight: '75vh',
+      className={`poster-card ${theme.themeClass} flex flex-col items-center mx-auto`}
+      style={{
+        width: 'min(92vw, 540px)',
+        minHeight: '70vh',
         padding: 'clamp(2rem, 6vw, 3rem)',
-        marginBottom: '4rem'
+        marginBottom: '4rem',
       }}
     >
-      {/* Borders & Decorations */}
-      {isHaldi && <HaldiBorder />}
-      {isMehendi && <MehendiBorder />}
-      {isWedding && <WeddingBorder />}
+      <CandyBorder color={theme.border} />
 
-      {(isHaldi || isMehendi) && <FloralMotif color={isHaldi ? "#E8C97A" : "#68B093"} style={{ top: 16, left: 16 }} />}
-      {(isHaldi || isMehendi) && <FloralMotif color={isHaldi ? "#E8C97A" : "#68B093"} style={{ top: 16, right: 16, transform: 'scaleX(-1)' }} />}
-      
-      {/* Top Monogram/Logo */}
+      {/* Top icon circle */}
       <div style={{
-        width: 48, height: 48, borderRadius: '50%',
-        border: `1px solid ${accentColor}50`,
+        width: 64, height: 64, borderRadius: '50%',
+        border: `3px solid ${theme.border}60`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        marginBottom: 16, position: 'relative', zIndex: 10,
-        background: 'rgba(255,255,255,0.5)'
+        marginBottom: 20, background: 'rgba(255,255,255,0.7)',
+        boxShadow: `0 4px 16px ${theme.accent}20`,
+        fontSize: 28, position: 'relative', zIndex: 10,
       }}>
-        <span style={{ fontFamily: 'var(--font-garamond)', fontSize: 18, color: accentColor }}>P&S</span>
+        {theme.emoji}
       </div>
 
-      {/* Glassmorphism Text Panel */}
-      <div className="glass-panel w-full flex flex-col items-center text-center" style={{ padding: '28px 16px', position: 'relative', zIndex: 10 }}>
-        
-        {/* Hashtag */}
-        <p style={{ fontFamily: 'var(--font-garamond)', fontStyle: 'italic', fontSize: '1.2rem', color: accentColor, marginBottom: 8 }}>
-          {hashtag}
-        </p>
+      {/* Glassmorphism text panel */}
+      <div className="glass-panel w-full flex flex-col items-center text-center"
+        style={{ padding: '28px 20px', position: 'relative', zIndex: 10 }}>
 
-        {/* Subtitle */}
-        <p style={{ fontFamily: 'var(--font-lora)', fontSize: '0.8rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: textColor, opacity: 0.7, marginBottom: 16 }}>
-          {subtitle}
+        {/* Fun tag */}
+        <p style={{
+          fontFamily: 'var(--font-display)', fontWeight: 700, fontStyle: 'italic',
+          fontSize: '1rem', color: theme.accent, marginBottom: 8,
+        }}>
+          {event.description}
         </p>
 
         {/* Main Title */}
-        <h2 style={{ fontFamily: 'var(--font-garamond)', fontSize: 'clamp(2.2rem, 7vw, 3.2rem)', color: textColor, fontWeight: 500, lineHeight: 1.1, marginBottom: 24 }}>
+        <h2 style={{
+          fontFamily: 'var(--font-accent)',
+          fontSize: 'clamp(2rem, 7vw, 2.8rem)',
+          color: theme.text, lineHeight: 1.15, marginBottom: 20,
+        }}>
           {event.title}
         </h2>
 
-        {/* Pill Strip (Date/Time/Venue) */}
-        <div className="info-pill flex-col sm:flex-row" style={{ color: textColor }}>
-          <span style={{ fontFamily: 'var(--font-lora)', fontSize: '0.9rem', fontWeight: 500 }}>{event.date.split(',')[1]}</span>
+        {/* Pill strip */}
+        <div className="info-pill flex-col sm:flex-row" style={{ color: theme.text }}>
+          <span style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.9rem' }}>
+            {event.date.split(',')[1]?.trim() || event.date}
+          </span>
           <span className="hidden sm:inline" style={{ opacity: 0.3 }}>|</span>
-          <span style={{ fontFamily: 'var(--font-lora)', fontSize: '0.9rem' }}>{event.time}</span>
+          <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '0.9rem' }}>
+            {event.time}
+          </span>
           <span className="hidden sm:inline" style={{ opacity: 0.3 }}>|</span>
-          <span style={{ fontFamily: 'var(--font-lora)', fontSize: '0.9rem', fontStyle: 'italic' }}>{event.venue.split(',')[0]}</span>
+          <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '0.9rem', fontStyle: 'italic' }}>
+            {event.venue.split(',')[0]}
+          </span>
         </div>
-        
-        {/* Location Button */}
+
+        {/* Location button */}
         <a href={weddingData.venue.mapLink} target="_blank" rel="noopener noreferrer"
           className="mt-6 flex items-center justify-center gap-2"
           style={{
-            padding: '8px 20px', borderRadius: 30,
-            border: `1px solid ${accentColor}60`,
-            fontFamily: 'var(--font-lora)', fontSize: 13,
-            color: accentColor, textDecoration: 'none',
-            background: 'rgba(255,255,255,0.4)',
-            transition: 'background 0.2s ease'
+            padding: '10px 22px', borderRadius: 40,
+            border: `2px solid ${theme.border}70`,
+            fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 13,
+            color: theme.accent, textDecoration: 'none',
+            background: 'rgba(255,255,255,0.5)',
+            transition: 'background 0.2s ease',
           }}
-          onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.8)'}
-          onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.4)'}
+          onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.9)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.5)'}
         >
           <MapPin size={14}/> View Location
         </a>
       </div>
 
-      {/* Floating Elements (Butterflies/Petals) */}
-      <span className="anim-flutter absolute" style={{ fontSize: 24, top: '25%', left: '8%', zIndex: 20 }}>🦋</span>
-      <span className="anim-flutter absolute" style={{ fontSize: 20, top: '45%', right: '10%', zIndex: 20 }}>🦋</span>
-      
-      {/* Illustration Area (Bottom) */}
-      <div className="event-illustration-wrapper mt-auto pt-16 flex flex-col items-center justify-end relative z-10 w-full" style={{ minHeight: 200 }}>
+      {/* Floating decorative emojis */}
+      <span className="anim-flutter absolute" style={{ fontSize: 22, top: '22%', left: '8%', zIndex: 20 }}>
+        {index === 0 ? '🎮' : index === 1 ? '🎉' : '🍕'}
+      </span>
+      <span className="anim-flutter absolute" style={{ fontSize: 18, top: '42%', right: '9%', zIndex: 20 }}>
+        {index === 0 ? '🎈' : index === 1 ? '🎊' : '🎶'}
+      </span>
+
+      {/* Illustration area */}
+      <div className="event-illustration-wrapper mt-auto pt-12 flex flex-col items-center justify-end relative z-10 w-full"
+        style={{ minHeight: 180 }}>
         {event.illustration && !imgError ? (
-          <img 
-            src={event.illustration} 
-            alt={event.title}
+          <img
+            src={event.illustration} alt={event.title}
             className="event-illustration"
             loading="lazy"
             onError={() => setImgError(true)}
           />
         ) : (
           <div style={{
-            width: '70%', height: 160,
-            border: `2px dashed ${accentColor}40`,
-            borderRadius: '16px 16px 0 0',
+            width: '65%', height: 140,
+            border: `2.5px dashed ${theme.border}50`,
+            borderRadius: '20px 20px 0 0',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: 'transparent',
-            textAlign: 'center', padding: 16
+            flexDirection: 'column', gap: 8,
           }}>
-            <p style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic', color: accentColor, fontSize: '0.9rem' }}>
-              🌸<br/>Floral/Couple<br/>Placeholder
+            <span style={{ fontSize: 40 }}>{theme.emoji}</span>
+            <p style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: theme.accent, fontSize: 12 }}>
+              {event.title}
             </p>
           </div>
         )}
@@ -172,18 +181,22 @@ const EventDetails = () => (
       viewport={{ once: true }} transition={{ duration: 0.9 }}
       style={{ textAlign: 'center', marginBottom: 50 }}
     >
-      <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2.2rem, 7vw, 3.2rem)',
-        color: 'var(--color-choco)', fontWeight: 400, margin: 0, letterSpacing: '0.02em' }}>
-        Wedding Events
+      <h2 style={{
+        fontFamily: 'var(--font-accent)',
+        fontSize: 'clamp(1.8rem, 7vw, 2.8rem)',
+        color: 'hsl(275,55%,38%)',
+        margin: 0,
+      }}>
+        Party Schedule 🎉
       </h2>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, maxWidth: 260, margin: '16px auto 0' }}>
-        <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, transparent, rgba(201,168,76,0.6))' }}/>
-        <span style={{ color: 'var(--color-gold)', fontSize: 18 }}>✦</span>
-        <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(201,168,76,0.6), transparent)' }}/>
+        <div style={{ flex: 1, height: 2, background: 'linear-gradient(90deg, transparent, hsl(340,80%,70%))' }}/>
+        <span style={{ fontSize: 20 }}>🎈</span>
+        <div style={{ flex: 1, height: 2, background: 'linear-gradient(90deg, hsl(340,80%,70%), transparent)' }}/>
       </div>
     </motion.div>
 
-    {/* Render the Poster Cards */}
+    {/* Event poster cards */}
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {weddingData.events.map((ev, i) => <EventPoster key={ev.id} event={ev} index={i} />)}
     </div>

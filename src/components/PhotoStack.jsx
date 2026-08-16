@@ -16,11 +16,11 @@ const PhotoStack = () => {
   ];
 
   const subtitles = [
-    "Beautiful Moments",
-    "Together Forever",
-    "Joy & Laughter",
-    "Endless Love",
-    "A New Journey"
+    "Happy Memories! 🎈",
+    "So Much Fun! 🎊",
+    "Growing Up! 🌸",
+    "Pure Joy! 🎀",
+    "Love & Laughter! 🎉"
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -147,19 +147,19 @@ const PhotoStack = () => {
         style={{ textAlign: 'center', marginBottom: 64, position: 'relative', zIndex: 10 }}
       >
         <div className="flex items-center justify-center gap-4 mb-6">
-          <div style={{ height: 1, width: 40, background: 'linear-gradient(90deg, transparent, var(--color-gold))' }} />
-          <span style={{ color: 'var(--color-gold)', fontSize: 14 }}>✧</span>
-          <div style={{ height: 1, width: 40, background: 'linear-gradient(-90deg, transparent, var(--color-gold))' }} />
+          <div style={{ height: 2, width: 40, background: 'linear-gradient(90deg, transparent, hsl(340,80%,70%))' }} />
+          <span style={{ fontSize: 20 }}>🎈</span>
+          <div style={{ height: 2, width: 40, background: 'linear-gradient(-90deg, transparent, hsl(340,80%,70%))' }} />
         </div>
 
-        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2.5rem, 8vw, 3.8rem)',
-          color: 'var(--color-choco)', fontWeight: 400, margin: 0 }}>
-          Forever Moments
+        <h2 style={{ fontFamily: 'var(--font-accent)', fontSize: 'clamp(2rem, 8vw, 3.2rem)',
+          color: 'hsl(275,55%,38%)', margin: 0 }}>
+          Sweet Memories 🎀
         </h2>
         
-        <p style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic',
-          fontSize: 'clamp(1rem, 3.5vw, 1.2rem)', color: 'var(--color-sage-dark)', marginTop: 12 }}>
-          A few memories from our beautiful journey.
+        <p style={{ fontFamily: 'var(--font-body)', fontWeight: 600,
+          fontSize: 'clamp(1rem, 3.5vw, 1.1rem)', color: 'hsl(340,65%,55%)', marginTop: 12 }}>
+          Precious moments from our little princess's life! 🌸
         </p>
       </motion.div>
 

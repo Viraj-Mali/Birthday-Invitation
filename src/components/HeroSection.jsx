@@ -2,27 +2,16 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { weddingData } from '../data/index.js';
 
-/* ── Full ornamental corner SVG ── */
-const OrnCorner = ({ style = {} }) => (
-  <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg"
-    style={{ width: 64, height: 64, position: 'absolute', opacity: 0.7, ...style }}>
-    {/* Main curve */}
-    <path d="M4 4 Q32 4 32 32" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-    <path d="M8 4 Q36 8 36 36" stroke="rgba(201,168,76,0.3)" strokeWidth="1" strokeLinecap="round" fill="none"/>
-    {/* Inner details */}
-    <circle cx="16" cy="16" r="6" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
-    <path d="M16 8 Q21 12 16 16 Q11 12 16 8Z" fill="#C9A84C" opacity="0.8"/>
-    <path d="M8 16 Q12 21 16 16 Q12 11 8 16Z" fill="#C9A84C" opacity="0.75"/>
-    <path d="M16 24 Q21 20 16 16 Q11 20 16 24Z" fill="#C9A84C" opacity="0.6"/>
-    <path d="M24 16 Q20 11 16 16 Q20 21 24 16Z" fill="#C9A84C" opacity="0.65"/>
-    <circle cx="16" cy="16" r="2.5" fill="#C9A84C" opacity="0.9"/>
-    {/* Outer dots */}
-    <circle cx="32" cy="7"  r="2.5" fill="#C9A84C" opacity="0.5"/>
-    <circle cx="7"  cy="32" r="2.5" fill="#C9A84C" opacity="0.5"/>
-    <circle cx="44" cy="9"  r="2" fill="#C9A84C" opacity="0.4"/>
-    <circle cx="9"  cy="44" r="2" fill="#C9A84C" opacity="0.4"/>
-    {/* Leaf accents */}
-    <path d="M36 12 Q44 22 36 32 Q28 22 36 12Z" fill="#C9A84C" opacity="0.4"/>
+/* ── Balloon Corner Decoration ── */
+const BalloonCorner = ({ style = {} }) => (
+  <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"
+    style={{ width: 56, height: 56, position: 'absolute', opacity: 0.55, ...style }}>
+    <circle cx="28" cy="20" r="14" fill="hsl(340,90%,75%)" opacity="0.8"/>
+    <circle cx="48" cy="32" r="12" fill="hsl(275,70%,72%)" opacity="0.7"/>
+    <circle cx="20" cy="42" r="10" fill="hsl(47,95%,65%)" opacity="0.7"/>
+    <line x1="28" y1="34" x2="20" y2="72" stroke="hsl(340,80%,70%)" strokeWidth="1.2"/>
+    <line x1="48" y1="44" x2="44" y2="75" stroke="hsl(275,60%,65%)" strokeWidth="1.2"/>
+    <line x1="20" y1="52" x2="18" y2="76" stroke="hsl(47,80%,60%)" strokeWidth="1.2"/>
   </svg>
 );
 
@@ -32,125 +21,144 @@ const container = {
 };
 const item = {
   hidden: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.4,0,0.2,1] } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.4, 0, 0.2, 1] } },
 };
 
 const HeroSection = () => {
-  const { couple, wedding, venue } = weddingData;
+  const { birthday, venue } = weddingData;
 
   return (
     <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center py-16 px-4 overflow-hidden bg-sage-to-ivory">
 
-      {/* Large watermark ❋ */}
+      {/* Big watermark emoji */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden">
         <motion.span
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5 }}
           style={{
-            fontFamily: 'serif', fontSize: 'clamp(300px, 60vw, 500px)',
-            color: 'rgba(201,168,76,0.04)', lineHeight: 1, userSelect: 'none',
-          }}>❋</motion.span>
+            fontSize: 'clamp(280px, 55vw, 460px)',
+            color: 'rgba(200,50,120,0.04)',
+            lineHeight: 1, userSelect: 'none',
+          }}
+        >🎈</motion.span>
       </div>
 
-      {/* Background corner florals */}
-      <OrnCorner style={{ top: 16, left: 16 }} />
-      <OrnCorner style={{ top: 16, right: 16, transform: 'scaleX(-1)' }} />
-      <OrnCorner style={{ bottom: 16, left: 16, transform: 'scaleY(-1)' }} />
-      <OrnCorner style={{ bottom: 16, right: 16, transform: 'scale(-1,-1)' }} />
+      {/* Balloon corner decorations */}
+      <BalloonCorner style={{ top: 16, left: 16 }} />
+      <BalloonCorner style={{ top: 16, right: 16, transform: 'scaleX(-1)' }} />
+      <BalloonCorner style={{ bottom: 16, left: 16, transform: 'scaleY(-1)' }} />
+      <BalloonCorner style={{ bottom: 16, right: 16, transform: 'scale(-1,-1)' }} />
 
       {/* Main Card */}
       <motion.div
         variants={container} initial="hidden" animate="visible"
         className="relative z-10 w-full max-w-lg mx-auto flex flex-col items-center justify-center p-8 bg-glass shadow-glass rounded-2xl text-center"
       >
-        {/* Inner small ornament corners */}
-        <OrnCorner style={{ top: 8, left: 8, width: 40, height: 40, opacity: 0.5 }} />
-        <OrnCorner style={{ top: 8, right: 8, transform: 'scaleX(-1)', width: 40, height: 40, opacity: 0.5 }} />
-        <OrnCorner style={{ bottom: 8, left: 8, transform: 'scaleY(-1)', width: 40, height: 40, opacity: 0.5 }} />
-        <OrnCorner style={{ bottom: 8, right: 8, transform: 'scale(-1,-1)', width: 40, height: 40, opacity: 0.5 }} />
+        {/* Animated floating balloons on card */}
+        <BalloonCorner style={{ top: 8, left: 8, width: 36, height: 36, opacity: 0.4 }} />
+        <BalloonCorner style={{ top: 8, right: 8, transform: 'scaleX(-1)', width: 36, height: 36, opacity: 0.4 }} />
 
-        {/* Top Blessing */}
-        <motion.div variants={item} className="mb-8 mt-4 flex flex-col items-center">
-          {weddingData.assets.ganpatiImage && (
-            <img 
-              src={weddingData.assets.ganpatiImage} 
-              alt="Shree Ganeshay Namah" 
-              style={{ width: 84, height: 84, objectFit: 'contain', marginBottom: 20, opacity: 0.9 }} 
-            />
-          )}
-          <p style={{ fontFamily: 'var(--font-lora)', color: 'var(--color-gold-deep)',
-            fontSize: 11, letterSpacing: '0.38em', textTransform: 'uppercase' }}>
-            {wedding.blessing}
+        {/* Top emojis */}
+        <motion.div variants={item} className="mb-6 mt-2 flex flex-col items-center gap-2">
+          <motion.p
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ fontSize: 48, lineHeight: 1 }}
+          >
+            🎀
+          </motion.p>
+          <p style={{
+            fontFamily: 'var(--font-display)', fontWeight: 700,
+            color: 'hsl(275,60%,45%)',
+            fontSize: 12, letterSpacing: '0.35em', textTransform: 'uppercase',
+          }}>
+            {birthday.blessing}
           </p>
         </motion.div>
 
         <motion.p variants={item}
-          style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic', color: 'var(--color-sage-mid)',
-            fontSize: 'clamp(0.95rem, 2.5vw, 1.1rem)', marginBottom: 24 }}>
-          {wedding.subtitle}
+          style={{
+            fontFamily: 'var(--font-body)', fontWeight: 600,
+            color: 'hsl(340,70%,55%)',
+            fontSize: 'clamp(0.95rem, 2.5vw, 1.1rem)', marginBottom: 20,
+          }}>
+          {birthday.subtitle}
         </motion.p>
 
         {/* Divider */}
         <motion.div variants={item} className="ornament-row" style={{ marginBottom: 24, maxWidth: 280, margin: '0 auto 24px' }}>
-          <span style={{ color: 'var(--color-gold)', fontSize: 18 }}>✦</span>
+          <span style={{ color: 'hsl(340,80%,65%)', fontSize: 18 }}>✦</span>
         </motion.div>
 
-        {/* Couple Names */}
+        {/* Birthday Girl Name */}
         <motion.h1 variants={item}
-          style={{ fontFamily: 'var(--font-garamond)', color: 'var(--color-choco)',
-            fontSize: 'clamp(2.8rem, 10vw, 4.2rem)', fontWeight: 400,
-            lineHeight: 1.1, margin: '0 0 6px', letterSpacing: '0.02em',
-            textShadow: '0 4px 16px rgba(44,24,16,0.06)' }}>
-          {couple.groomName}
+          style={{
+            fontFamily: 'var(--font-accent)',
+            color: 'hsl(275,55%,38%)',
+            fontSize: 'clamp(2.4rem, 9vw, 3.6rem)',
+            lineHeight: 1.1, margin: '0 0 10px',
+            textShadow: '0 4px 20px rgba(200,50,120,0.12)',
+          }}>
+          {birthday.name}
         </motion.h1>
 
+        {/* "is turning" */}
         <motion.div variants={item}
-          style={{ fontFamily: 'var(--font-garamond)', color: 'var(--color-gold)',
-            fontSize: 'clamp(3.5rem, 11vw, 5.5rem)', fontWeight: 300,
-            lineHeight: 0.8, margin: '8px 0', opacity: 0.85 }}>
-          &amp;
+          style={{
+            fontFamily: 'var(--font-body)', fontWeight: 700,
+            color: 'hsl(340,80%,60%)',
+            fontSize: 'clamp(1rem, 3vw, 1.2rem)',
+            margin: '4px 0 18px',
+          }}>
+          is turning
         </motion.div>
 
-        <motion.h1 variants={item}
-          style={{ fontFamily: 'var(--font-garamond)', color: 'var(--color-choco)',
-            fontSize: 'clamp(2.8rem, 10vw, 4.2rem)', fontWeight: 400,
-            lineHeight: 1.1, margin: '6px 0 26px', letterSpacing: '0.02em',
-            textShadow: '0 4px 16px rgba(44,24,16,0.06)' }}>
-          {couple.brideName}
-        </motion.h1>
-
-        {/* Tagline */}
-        <motion.p variants={item}
-          style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic',
-            color: 'var(--color-maroon)', fontSize: 'clamp(1.1rem, 3.5vw, 1.3rem)',
-            marginBottom: 26, letterSpacing: '0.02em' }}>
-          Are getting married
-        </motion.p>
+        {/* Big age number */}
+        <motion.div variants={item}
+          animate={{ scale: [1, 1.06, 1] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          style={{
+            fontFamily: 'var(--font-accent)',
+            fontSize: 'clamp(4rem, 16vw, 7rem)',
+            lineHeight: 1,
+            background: 'linear-gradient(135deg, hsl(340,90%,60%) 0%, hsl(275,70%,60%) 50%, hsl(210,80%,60%) 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            margin: '0 0 18px',
+            filter: 'drop-shadow(0 4px 12px rgba(200,50,120,0.2))',
+          }}>
+          {birthday.age}
+        </motion.div>
 
         {/* Divider */}
-        <motion.div variants={item} className="ornament-row" style={{ marginBottom: 26, maxWidth: 220, margin: '0 auto 26px' }}>
-          <span style={{ color: 'var(--color-gold)', fontSize: 16 }}>❋</span>
+        <motion.div variants={item} className="ornament-row" style={{ marginBottom: 24, maxWidth: 220, margin: '0 auto 24px' }}>
+          <span style={{ color: 'hsl(340,80%,65%)', fontSize: 16 }}>🎊</span>
         </motion.div>
 
         {/* Date & Venue */}
         <motion.div variants={item} style={{ marginBottom: 12 }}>
-          <p style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-choco)',
-            fontSize: 'clamp(1.3rem, 4.5vw, 1.8rem)', fontWeight: 500, marginBottom: 8 }}>
-            {wedding.weddingDate}
+          <p style={{
+            fontFamily: 'var(--font-display)', fontWeight: 700,
+            color: 'hsl(275,50%,35%)',
+            fontSize: 'clamp(1.2rem, 4vw, 1.6rem)', marginBottom: 8,
+          }}>
+            {birthday.partyDate}
           </p>
-          <p style={{ fontFamily: 'var(--font-lora)', color: 'var(--color-sage-dark)',
-            fontSize: 'clamp(0.9rem, 2.5vw, 1.05rem)', opacity: 0.9 }}>
-            {wedding.weddingTime} · {venue.name}, Sangamner
+          <p style={{
+            fontFamily: 'var(--font-body)', fontWeight: 600,
+            color: 'hsl(340,70%,55%)',
+            fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
+          }}>
+            {birthday.partyTime} · {venue.name}
           </p>
         </motion.div>
 
-        {/* Divider */}
-        <motion.div variants={item} className="ornament-row" style={{ margin: '26px auto', maxWidth: 180 }}>
-          <span style={{ color: 'var(--color-gold)', fontSize: 14 }}>✦</span>
+        {/* Bottom ornament */}
+        <motion.div variants={item} className="ornament-row" style={{ margin: '24px auto 0', maxWidth: 180 }}>
+          <span style={{ color: 'hsl(340,80%,65%)', fontSize: 14 }}>🎈</span>
         </motion.div>
-
-
       </motion.div>
 
     </section>

@@ -2,78 +2,109 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { weddingData } from '../data/index.js';
 
-/* ── Elegant initials placeholder ── */
-const InitialsPlaceholder = ({ initial, color = 'var(--color-sage)' }) => (
-  <div
-    className="w-full h-full flex flex-col items-center justify-center"
-    style={{ background: `linear-gradient(145deg, ${color}22, ${color}11)` }}
-  >
-    <span className="font-serif text-6xl font-light" style={{ color }}>{initial}</span>
-    <div className="mt-2 flex gap-1">
-      {['🌸','🌿','🌸'].map((e,i) => <span key={i} className="text-xs opacity-60">{e}</span>)}
-    </div>
-  </div>
-);
+/* ── Birthday Girl profile card ── */
+const BirthdayGirlCard = () => {
+  const { couple, assets } = weddingData;
 
-const ProfileCard = ({ name, qualification, parents, address, initial, photo, side }) => {
-  const isLeft = side === 'groom';
   return (
     <motion.div
-      initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.85, ease: [0.4, 0, 0.2, 1] }}
+      transition={{ duration: 0.9, ease: [0.4, 0, 0.2, 1] }}
       className="invitation-card p-6 sm:p-8 flex flex-col items-center text-center max-w-xs mx-auto w-full"
     >
-      {/* Photo / Initials */}
+      {/* Photo */}
       <div
-        className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden mb-5 border-4"
-        style={{ borderColor: 'rgba(201,168,76,0.3)', background: 'var(--color-cream)' }}
+        style={{
+          width: 140, height: 140,
+          borderRadius: '50%',
+          overflow: 'hidden',
+          border: '5px solid hsl(340,80%,80%)',
+          boxShadow: '0 8px 24px rgba(200,50,120,0.2)',
+          background: 'hsl(340,80%,95%)',
+          marginBottom: 20,
+          position: 'relative',
+        }}
       >
-        {photo ? (
-          <img src={photo} alt={name} className="w-full h-full object-cover" />
+        {assets.birthdayGirlPhoto ? (
+          <img src={assets.birthdayGirlPhoto} alt={couple.birthdayGirlName} className="w-full h-full object-cover" />
         ) : (
-          <InitialsPlaceholder initial={initial} color={isLeft ? 'var(--color-sage)' : 'var(--color-maroon-light)'} />
+          <div className="w-full h-full flex flex-col items-center justify-center" style={{ background: 'linear-gradient(145deg, hsl(340,80%,92%), hsl(275,70%,90%))' }}>
+            <span style={{ fontSize: 56 }}>👧</span>
+          </div>
         )}
       </div>
 
       {/* Name */}
-      <h3 className="font-serif text-2xl sm:text-3xl font-medium mb-1" style={{ color: 'var(--color-choco)' }}>
-        {name}
+      <h3 style={{
+        fontFamily: 'var(--font-accent)',
+        fontSize: 'clamp(1.6rem, 5vw, 2.2rem)',
+        color: 'hsl(275,55%,38%)',
+        marginBottom: 6,
+      }}>
+        {couple.birthdayGirlName}
       </h3>
 
-      {/* Qualification */}
-      <p className="font-lora italic text-sm mb-3" style={{ color: 'var(--color-sage)' }}>
-        {qualification}
-      </p>
-
-      {/* Gold divider */}
-      <div className="flex items-center gap-2 my-2 w-24">
-        <div className="flex-1 h-px" style={{ background: 'var(--color-gold)' }}/>
-        <span className="text-xs" style={{ color: 'var(--color-gold)' }}>✦</span>
-        <div className="flex-1 h-px" style={{ background: 'var(--color-gold)' }}/>
+      {/* Age badge */}
+      <div style={{
+        background: 'linear-gradient(135deg, hsl(340,85%,65%), hsl(275,70%,60%))',
+        color: '#fff',
+        borderRadius: 40,
+        padding: '6px 20px',
+        fontFamily: 'var(--font-display)',
+        fontWeight: 700,
+        fontSize: 14,
+        marginBottom: 16,
+        boxShadow: '0 4px 12px rgba(200,50,120,0.3)',
+      }}>
+        🎂 Turning {couple.birthdayGirlAge} Years Old!
       </div>
 
-      {/* Parents */}
-      {parents && (
-        <p className="font-lora text-xs sm:text-[13px] leading-relaxed mb-3 mt-1 px-2" style={{ color: 'rgba(44,24,16,0.7)', fontStyle: 'italic' }}>
-          {parents}
-        </p>
-      )}
+      {/* Divider */}
+      <div className="flex items-center gap-2 my-1 w-28">
+        <div className="flex-1 h-0.5" style={{ background: 'hsl(340,70%,75%)' }}/>
+        <span style={{ fontSize: 14, color: 'hsl(340,80%,65%)' }}>🎈</span>
+        <div className="flex-1 h-0.5" style={{ background: 'hsl(340,70%,75%)' }}/>
+      </div>
 
-      {/* Address */}
-      <p className="font-lora text-xs leading-relaxed opacity-70" style={{ color: 'rgba(44,24,16,0.6)' }}>
-        {address}
+      {/* Fun note */}
+      <p style={{
+        fontFamily: 'var(--font-body)', fontWeight: 600,
+        fontSize: 14,
+        color: 'hsl(275,40%,55%)',
+        marginTop: 12, lineHeight: 1.6,
+      }}>
+        {couple.birthdayGirlNote}
       </p>
     </motion.div>
   );
 };
 
-const CoupleSection = () => {
-  const { couple } = weddingData;
+/* ── Parent Cards ── */
+const ParentCard = ({ title, emoji, color }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: '-40px' }}
+    transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+    className="invitation-card p-5 flex flex-col items-center text-center"
+  >
+    <span style={{ fontSize: 36, marginBottom: 10 }}>{emoji}</span>
+    <p style={{
+      fontFamily: 'var(--font-display)', fontWeight: 700,
+      fontSize: 16, color,
+    }}>{title}</p>
+    <p style={{
+      fontFamily: 'var(--font-body)', fontWeight: 600,
+      fontSize: 12, color: 'hsl(275,30%,60%)', marginTop: 4,
+    }}>Hosting with lots of love!</p>
+  </motion.div>
+);
 
+const CoupleSection = () => {
   return (
-    <section id="couple" className="py-16 px-4" style={{ background: 'linear-gradient(180deg, #FAF7F0 0%, #EDF2ED 100%)' }}>
+    <section id="about" className="py-16 px-4" style={{ background: 'linear-gradient(180deg, hsl(275,35%,97%) 0%, hsl(340,45%,96%) 100%)' }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -81,44 +112,34 @@ const CoupleSection = () => {
         transition={{ duration: 0.7 }}
         className="max-w-4xl mx-auto text-center mb-10"
       >
-        <p className="font-lora text-xs tracking-[0.35em] uppercase mb-3" style={{ color: 'var(--color-gold-dark)' }}>
-          The Couple
+        <p style={{
+          fontFamily: 'var(--font-display)', fontWeight: 700,
+          fontSize: 12, letterSpacing: '0.35em', textTransform: 'uppercase',
+          color: 'hsl(340,75%,55%)', marginBottom: 12,
+        }}>
+          🌟 The Star of the Show 🌟
         </p>
-        <h2 className="font-serif text-3xl sm:text-4xl font-medium" style={{ color: 'var(--color-choco)' }}>
-          Meet The Two Hearts
+        <h2 style={{
+          fontFamily: 'var(--font-accent)',
+          fontSize: 'clamp(1.8rem, 6vw, 2.8rem)',
+          color: 'hsl(275,55%,38%)',
+        }}>
+          Meet the Birthday Girl!
         </h2>
         <div className="gold-divider mt-5">
-          <span style={{ color: 'var(--color-gold)' }}>✦</span>
+          <span style={{ fontSize: 20, color: 'hsl(340,80%,65%)' }}>🎀</span>
         </div>
       </motion.div>
 
-      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 relative">
-        {/* Connector ampersand (desktop) */}
-        <div className="hidden md:flex absolute inset-0 items-center justify-center pointer-events-none z-10">
-          <div className="w-14 h-14 rounded-full flex items-center justify-center"
-            style={{ background: 'var(--color-ivory)', border: '1px solid rgba(201,168,76,0.3)', boxShadow: '0 4px 16px rgba(44,24,16,0.08)' }}>
-            <span className="font-garamond text-2xl font-light" style={{ color: 'var(--color-gold)' }}>&amp;</span>
-          </div>
-        </div>
+      {/* Birthday girl center */}
+      <div className="max-w-sm mx-auto mb-10">
+        <BirthdayGirlCard />
+      </div>
 
-        <ProfileCard
-          name={couple.groomName}
-          qualification={couple.groomQualification}
-          parents={couple.groomParents}
-          address={couple.groomAddress}
-          initial="P"
-          photo={couple.groomPhoto || weddingData.assets.groomPhoto}
-          side="groom"
-        />
-        <ProfileCard
-          name={couple.brideName}
-          qualification={couple.brideQualification}
-          parents={couple.brideParents}
-          address={couple.brideAddress}
-          initial="S"
-          photo={couple.bridePhoto || weddingData.assets.bridePhoto}
-          side="bride"
-        />
+      {/* Parents row */}
+      <div className="max-w-lg mx-auto grid grid-cols-2 gap-4">
+        <ParentCard title="Papa 👨" emoji="🤵" color="hsl(210,70%,45%)" />
+        <ParentCard title="Mama 👩" emoji="👸" color="hsl(340,70%,50%)" />
       </div>
     </section>
   );

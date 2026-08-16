@@ -3,39 +3,33 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { weddingData } from '../data/index.js';
 
 /* ═══════════════════════════════════════════════════════
-   BACKGROUND & PARTICLES
+   FLOATING CONFETTI PARTICLES
 ═══════════════════════════════════════════════════════ */
-const MagicalParticles = ({ isMobile }) => {
-  const particleCount = isMobile ? 8 : 16;
-  const elements = ['🌸', '🦋', '🍃', '✨', '🌿'];
-  
+const ConfettiParticles = ({ isMobile }) => {
+  const particleCount = isMobile ? 10 : 20;
+  const elements = ['🎈', '🎀', '⭐', '🌸', '🍭', '✨', '🎊', '🍬'];
+
   const particles = React.useMemo(() => {
-    return Array.from({ length: particleCount }).map((_, i) => {
-      // Base duration: 18-30s for desktop, 22-36s for mobile
-      const baseDuration = isMobile ? 22 : 18;
-      const durationRange = isMobile ? 14 : 12;
-      
-      return {
-        id: i,
-        e: elements[Math.floor(Math.random() * elements.length)],
-        left: `${Math.random() * 100}vw`,
-        startX: `${(Math.random() - 0.5) * 50}px`,
-        endX: `${(Math.random() - 0.5) * 150}px`, // Slight horizontal drift
-        duration: `${baseDuration + Math.random() * durationRange}s`,
-        delay: `${Math.random() * 10}s`,
-        opacity: 0.4 + Math.random() * 0.4,
-        rotate: `${(Math.random() - 0.5) * 360}deg`,
-        sz: 10 + Math.random() * 14
-      };
-    });
+    return Array.from({ length: particleCount }).map((_, i) => ({
+      id: i,
+      e: elements[Math.floor(Math.random() * elements.length)],
+      left: `${Math.random() * 100}vw`,
+      startX: `${(Math.random() - 0.5) * 40}px`,
+      endX: `${(Math.random() - 0.5) * 120}px`,
+      duration: `${14 + Math.random() * 12}s`,
+      delay: `${Math.random() * 8}s`,
+      opacity: 0.5 + Math.random() * 0.4,
+      rotate: `${(Math.random() - 0.5) * 360}deg`,
+      sz: 12 + Math.random() * 12,
+    }));
   }, [isMobile]);
-  
+
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
       {particles.map((p) => (
-        <span 
-          key={p.id} 
-          className="particle" 
+        <span
+          key={p.id}
+          className="particle"
           style={{
             '--left': p.left,
             '--start-x': p.startX,
@@ -44,7 +38,7 @@ const MagicalParticles = ({ isMobile }) => {
             '--delay': p.delay,
             '--opacity': p.opacity,
             '--rotate': p.rotate,
-            fontSize: p.sz
+            fontSize: p.sz,
           }}
         >
           {p.e}
@@ -55,46 +49,78 @@ const MagicalParticles = ({ isMobile }) => {
 };
 
 /* ═══════════════════════════════════════════════════════
-   ENVELOPE ARTWORK (White/Gold Floral Line Art)
+   BALLOON BOX ARTWORK — 3D gift-box style
 ═══════════════════════════════════════════════════════ */
-const FlapLineArt = () => (
-  <svg viewBox="0 0 400 160" fill="none" className="absolute inset-0 w-full h-full pointer-events-none">
-    {/* Inner decorative dashed border along the V */}
-    <path d="M10 5 L200 145 L390 5" stroke="rgba(201,168,76,0.5)" strokeWidth="1" strokeDasharray="4 4"/>
-    
-    {/* Symmetrical floral swooshes on flap */}
-    <path d="M100 40 Q150 100 200 135" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round"/>
-    <path d="M300 40 Q250 100 200 135" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round"/>
-    
-    <circle cx="100" cy="40" r="3" fill="rgba(255,255,255,0.8)"/>
-    <circle cx="300" cy="40" r="3" fill="rgba(255,255,255,0.8)"/>
-    <path d="M80 20 Q100 20 100 40 Q80 40 80 20" fill="rgba(255,255,255,0.4)"/>
-    <path d="M320 20 Q300 20 300 40 Q320 40 320 20" fill="rgba(255,255,255,0.4)"/>
+const BoxLidArt = () => (
+  <svg viewBox="0 0 400 120" fill="none" className="absolute inset-0 w-full h-full pointer-events-none">
+    {/* Ribbon horizontal */}
+    <line x1="0" y1="60" x2="400" y2="60" stroke="rgba(255,255,255,0.7)" strokeWidth="8" strokeLinecap="round"/>
+    {/* Ribbon vertical */}
+    <line x1="200" y1="0" x2="200" y2="120" stroke="rgba(255,255,255,0.7)" strokeWidth="8" strokeLinecap="round"/>
+    {/* Bow left loop */}
+    <path d="M200 60 Q155 20 130 40 Q110 60 155 65" stroke="rgba(255,255,255,0.9)" strokeWidth="5" fill="none" strokeLinecap="round"/>
+    {/* Bow right loop */}
+    <path d="M200 60 Q245 20 270 40 Q290 60 245 65" stroke="rgba(255,255,255,0.9)" strokeWidth="5" fill="none" strokeLinecap="round"/>
   </svg>
 );
 
-const PocketLineArt = () => (
-  <svg viewBox="0 0 400 280" fill="none" className="absolute inset-0 w-full h-full pointer-events-none">
-    {/* Outer dashed border */}
-    <rect x="10" y="10" width="380" height="260" rx="8" stroke="rgba(201,168,76,0.3)" strokeWidth="1" strokeDasharray="3 3"/>
-    
-    {/* Symmetrical corner florals */}
-    <g transform="translate(20, 260) scale(1, -1)">
-      <path d="M0 0 Q40 0 60 40" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" fill="none"/>
-      <path d="M0 0 Q0 40 40 60" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" fill="none"/>
-      <circle cx="60" cy="40" r="3" fill="rgba(255,255,255,0.8)"/>
-      <circle cx="40" cy="60" r="3" fill="rgba(255,255,255,0.8)"/>
-      <path d="M10 10 Q25 25 40 20 Q25 10 10 10" fill="rgba(255,255,255,0.4)"/>
-    </g>
-    <g transform="translate(380, 260) scale(-1, -1)">
-      <path d="M0 0 Q40 0 60 40" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" fill="none"/>
-      <path d="M0 0 Q0 40 40 60" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" fill="none"/>
-      <circle cx="60" cy="40" r="3" fill="rgba(255,255,255,0.8)"/>
-      <circle cx="40" cy="60" r="3" fill="rgba(255,255,255,0.8)"/>
-      <path d="M10 10 Q25 25 40 20 Q25 10 10 10" fill="rgba(255,255,255,0.4)"/>
-    </g>
+const BoxBodyArt = () => (
+  <svg viewBox="0 0 400 260" fill="none" className="absolute inset-0 w-full h-full pointer-events-none">
+    {/* Outer border */}
+    <rect x="8" y="8" width="384" height="244" rx="16" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeDasharray="6 4"/>
+    {/* Ribbon vertical */}
+    <line x1="200" y1="0" x2="200" y2="260" stroke="rgba(255,255,255,0.55)" strokeWidth="7" strokeLinecap="round"/>
+    {/* Stars */}
+    <text x="50" y="80" fontSize="20" opacity="0.4">⭐</text>
+    <text x="310" y="180" fontSize="16" opacity="0.35">✨</text>
+    <text x="30" y="200" fontSize="14" opacity="0.3">🌟</text>
+    <text x="340" y="60" fontSize="18" opacity="0.35">⭐</text>
   </svg>
 );
+
+/* ═══════════════════════════════════════════════════════
+   BALLOONS ABOVE THE BOX
+═══════════════════════════════════════════════════════ */
+const BalloonCluster = () => {
+  const balloons = [
+    { color: 'hsl(340,90%,65%)', x: -80, delay: 0, size: 48, string: 60 },
+    { color: 'hsl(275,70%,65%)', x: 0,   delay: 0.3, size: 56, string: 70 },
+    { color: 'hsl(47,95%,60%)',  x: 80,  delay: 0.6, size: 48, string: 60 },
+    { color: 'hsl(155,65%,60%)', x: -42, delay: 0.9, size: 40, string: 50 },
+    { color: 'hsl(210,80%,65%)', x: 44,  delay: 1.2, size: 40, string: 50 },
+  ];
+
+  return (
+    <div className="flex justify-center items-end gap-0 relative" style={{ height: 120, marginBottom: -10 }}>
+      {balloons.map((b, i) => (
+        <motion.div
+          key={i}
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 2.5 + i * 0.3, repeat: Infinity, ease: 'easeInOut', delay: b.delay }}
+          style={{ position: 'absolute', left: `calc(50% + ${b.x}px)`, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        >
+          {/* Balloon */}
+          <div style={{
+            width: b.size, height: b.size * 1.15,
+            borderRadius: '50% 50% 45% 45%',
+            background: `radial-gradient(circle at 35% 30%, ${b.color}cc, ${b.color})`,
+            boxShadow: `inset -4px -4px 8px rgba(0,0,0,0.15), inset 4px 4px 8px rgba(255,255,255,0.3)`,
+            position: 'relative',
+          }}>
+            {/* Balloon knot */}
+            <div style={{
+              position: 'absolute', bottom: -4, left: '50%', transform: 'translateX(-50%)',
+              width: 6, height: 8, borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
+              background: b.color, filter: 'brightness(0.8)',
+            }}/>
+          </div>
+          {/* String */}
+          <div style={{ width: 1.5, height: b.string, background: `linear-gradient(180deg, ${b.color}88, transparent)` }}/>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
 
 /* ═══════════════════════════════════════════════════════
    MAIN COMPONENT
@@ -102,7 +128,8 @@ const PocketLineArt = () => (
 const OpeningEnvelopeScreen = ({ onEnter }) => {
   const [phase, setPhase] = useState('idle'); // idle | opening | revealing | done
   const [isMobile, setIsMobile] = useState(false);
-  
+  const { birthday } = weddingData;
+
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
     const h = () => setIsMobile(window.innerWidth < 768);
@@ -113,166 +140,154 @@ const OpeningEnvelopeScreen = ({ onEnter }) => {
   const handleClick = () => {
     if (phase !== 'idle') return;
     setPhase('opening');
-    // Flap opens, seal breaks/fades (1s)
-    setTimeout(() => setPhase('revealing'), 900);
-    // Card slides out, then transitions (2.5s)
-    setTimeout(() => { setPhase('done'); onEnter(); }, 3200);
+    setTimeout(() => setPhase('revealing'), 800);
+    setTimeout(() => { setPhase('done'); onEnter(); }, 3000);
   };
 
-  const isEnvelopeOpen = phase === 'opening' || phase === 'revealing';
+  const isBoxOpen = phase === 'opening' || phase === 'revealing';
 
   return (
     <AnimatePresence>
       {phase !== 'done' && (
         <motion.div
-          key="magical-splash"
+          key="birthday-splash"
           className="fixed inset-0 z-50 flex flex-col items-center justify-center px-4 overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, #8CAF8C 0%, #6E946E 100%)', // Soft elegant sage
+            background: 'linear-gradient(135deg, hsl(340,80%,70%) 0%, hsl(275,65%,65%) 50%, hsl(210,75%,65%) 100%)',
           }}
-          exit={{ opacity: 0, filter: 'blur(8px)' }}
-          transition={{ duration: 1.2, ease: 'easeInOut' }}
+          exit={{ opacity: 0, scale: 1.05, filter: 'blur(8px)' }}
+          transition={{ duration: 1, ease: 'easeInOut' }}
         >
-          {/* Particles */}
-          <MagicalParticles isMobile={isMobile} />
-          
-          {/* Top Title: You Are Invited */}
+          {/* Confetti particles */}
+          <ConfettiParticles isMobile={isMobile} />
+
+          {/* Balloons cluster above box */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 1 }}
+            className="relative z-10"
+            style={{ width: 'min(380px, 90vw)' }}
+          >
+            <BalloonCluster />
+          </motion.div>
+
+          {/* Top Title */}
           <motion.div
             initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 1.2, ease: "easeOut" }}
-            className="text-center mb-10 relative z-10 flex flex-col items-center"
+            transition={{ delay: 0.2, duration: 1 }}
+            className="text-center relative z-10 flex flex-col items-center"
+            style={{ marginBottom: 24 }}
           >
-            {weddingData.assets.ganpatiImage && (
-              <img 
-                src={weddingData.assets.ganpatiImage} 
-                alt="Shree Ganeshay Namah" 
-                style={{ width: 72, height: 72, objectFit: 'contain', marginBottom: 16, opacity: 0.9 }} 
-              />
-            )}
-            <p style={{ fontFamily: 'var(--font-lora)', color: 'rgba(255,255,255,0.85)',
-              fontSize: 10, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 12 }}>
-              {weddingData.wedding.blessing}
-            </p>
-            <h1 style={{ fontFamily: 'var(--font-garamond)', color: '#FFFFFF',
-              fontSize: 'clamp(2.5rem, 8vw, 3.8rem)', fontWeight: 400,
-              letterSpacing: '0.02em', margin: 0, lineHeight: 1.1,
-              textShadow: '0 2px 12px rgba(0,0,0,0.1)' }}>
-              You Are Invited
+            <h1 style={{
+              fontFamily: 'var(--font-accent)',
+              color: '#FFFFFF',
+              fontSize: 'clamp(2rem, 7vw, 3rem)',
+              margin: 0,
+              textShadow: '0 3px 16px rgba(0,0,0,0.15)',
+              letterSpacing: '0.02em',
+            }}>
+              You're Invited! 🎉
             </h1>
           </motion.div>
 
-          {/* PHYSICAL ENVELOPE STRUCTURE */}
+          {/* GIFT BOX STRUCTURE */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.9, ease: 'easeOut' }}
             className="relative z-20"
-            style={{ width: 'min(400px, 92vw)', aspectRatio: '400/280' }}
+            style={{ width: 'min(380px, 90vw)', aspectRatio: '380/290' }}
           >
-            {/* 1. Envelope Back Inside (Darker shade) */}
-            <div className="absolute inset-0 rounded-xl" style={{ 
-              background: '#D9D0BC', 
-              boxShadow: 'inset 0 4px 12px rgba(0,0,0,0.1)'
+            {/* Box Back */}
+            <div className="absolute inset-0 rounded-3xl" style={{
+              background: 'hsl(340,80%,88%)',
+              boxShadow: 'inset 0 4px 12px rgba(0,0,0,0.08)',
             }}/>
 
-            {/* 2. Invitation Card (Slides out from inside) */}
-            <div className="absolute inset-0 flex items-end justify-center overflow-hidden rounded-xl">
+            {/* Card that slides out */}
+            <div className="absolute inset-0 flex items-end justify-center overflow-hidden rounded-3xl">
               <AnimatePresence>
                 {phase === 'revealing' && (
                   <motion.div
-                    initial={{ y: 20, opacity: 0 }} 
-                    animate={{ y: -160, opacity: 1 }} // Slides completely out
-                    transition={{ duration: 1.5, ease: [0.4, 0, 0.1, 1] }}
+                    initial={{ y: 40, opacity: 0 }}
+                    animate={{ y: -170, opacity: 1 }}
+                    transition={{ duration: 1.4, ease: [0.4, 0, 0.1, 1] }}
                     style={{
-                      background: 'linear-gradient(150deg, #FDF9F2, #FAF7F0)',
-                      border: '1px solid rgba(201,168,76,0.3)',
-                      borderRadius: 12, padding: '24px', width: '88%', height: '180%',
-                      boxShadow: '0 10px 40px rgba(0,0,0,0.15)',
-                      textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center'
+                      background: 'linear-gradient(145deg, #fff 0%, hsl(340,80%,97%) 100%)',
+                      border: '3px solid rgba(255,200,220,0.7)',
+                      borderRadius: 20, padding: 24,
+                      width: '86%', height: '190%',
+                      boxShadow: '0 16px 48px rgba(200,50,120,0.2)',
+                      textAlign: 'center',
+                      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
                     }}
                   >
-                    <span style={{ fontSize: 24, color: 'rgba(201,168,76,0.6)', marginBottom: 12, marginTop: 12 }}>🌸</span>
-                    <p style={{ fontFamily: 'var(--font-garamond)', fontSize: 28, color: 'var(--color-choco)', fontWeight: 500, lineHeight: 1.2 }}>
-                      {weddingData.couple.groomName} <br/><span style={{ color: 'var(--color-gold)', fontSize: 20, fontStyle: 'italic' }}>&amp;</span><br/> {weddingData.couple.brideName}
+                    <span style={{ fontSize: 36 }}>🎀</span>
+                    <p style={{
+                      fontFamily: 'var(--font-accent)',
+                      fontSize: 26, color: 'hsl(275,60%,40%)',
+                      lineHeight: 1.2, margin: 0,
+                    }}>
+                      {birthday.name}
+                    </p>
+                    <p style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: 14, color: 'hsl(340,70%,55%)', fontWeight: 600,
+                    }}>
+                      Turns {birthday.age}! 🎂
                     </p>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
 
-            {/* 3. Envelope Pocket (Front bottom part) */}
-            <div className="absolute inset-0 pointer-events-none rounded-xl" style={{ 
-              background: 'linear-gradient(160deg, #F2ECD9 0%, #E8DFCA 100%)',
-              clipPath: 'polygon(0 0, 0% 100%, 100% 100%, 100% 0, 50% 60%)', // Creates the pocket shape
-              boxShadow: '0 -2px 10px rgba(0,0,0,0.05)',
-              zIndex: 10
+            {/* Box Body (Front bottom part) */}
+            <div className="absolute inset-0 pointer-events-none rounded-3xl" style={{
+              background: 'linear-gradient(160deg, hsl(340,85%,82%) 0%, hsl(340,80%,76%) 100%)',
+              clipPath: 'polygon(0 28%, 0 100%, 100% 100%, 100% 28%)',
+              zIndex: 10,
             }}>
-              <PocketLineArt />
+              <BoxBodyArt />
             </div>
 
-            {/* 4. Top Flap Container (Hinges upward) */}
-            {/* 
-              We separate the container from the visual flap.
-              The container handles the 3D rotation hinge, while the inner background gets the triangle clip-path.
-              This allows the wax seal to be a sibling of the background (not clipped) but still rotate with the flap!
-            */}
+            {/* Box Lid (flips open) */}
             <motion.div
               className="absolute top-0 left-0 w-full"
-              style={{ 
-                height: '65%', 
-                transformOrigin: 'top center',
-                zIndex: 20,
-              }}
-              animate={isEnvelopeOpen ? { rotateX: -180, opacity: 0.95 } : { rotateX: 0, opacity: 1 }}
-              transition={{ duration: 1, ease: [0.4, 0, 0.1, 1] }}
+              style={{ height: '36%', transformOrigin: 'top center', zIndex: 20 }}
+              animate={isBoxOpen ? { rotateX: -180, opacity: 0.85 } : { rotateX: 0, opacity: 1 }}
+              transition={{ duration: 0.9, ease: [0.4, 0, 0.1, 1] }}
             >
-              {/* Visual Triangle Flap (Clipped) */}
-              <div 
-                className="absolute inset-0 rounded-t-xl" 
-                style={{ 
-                  background: 'linear-gradient(160deg, #FDF9F2 0%, #F0E6CE 100%)',
-                  clipPath: 'polygon(0 0, 100% 0, 50% 100%)',
-                  boxShadow: '0 4px 15px rgba(0,0,0,0.08)' // Soft drop shadow below flap
-                }}
-              >
-                <FlapLineArt />
+              <div className="absolute inset-0 rounded-t-3xl" style={{
+                background: 'linear-gradient(160deg, hsl(340,85%,80%) 0%, hsl(340,80%,74%) 100%)',
+              }}>
+                <BoxLidArt />
               </div>
-              
-              {/* Wax Seal (Attached to the tip of the flap, outside the clip-path) */}
+
+              {/* Tap Button — the bow seal */}
               <AnimatePresence>
                 {phase === 'idle' && (
                   <motion.div
-                    exit={{ opacity: 0, scale: 1.2, filter: 'blur(4px)' }}
-                    transition={{ duration: 0.5 }}
-                    style={{ position: 'absolute', bottom: -20, left: '50%', transform: 'translateX(-50%)' }}
+                    exit={{ opacity: 0, scale: 1.3, filter: 'blur(4px)' }}
+                    transition={{ duration: 0.4 }}
+                    style={{ position: 'absolute', bottom: -32, left: '50%', transform: 'translateX(-50%)', zIndex: 30 }}
                   >
-                    <button 
+                    <button
                       onClick={handleClick}
-                      style={{ 
-                        width: 110, height: 110, borderRadius: '50%', cursor: 'pointer', border: 'none',
-                        background: 'radial-gradient(circle at 35% 35%, #F5E6B8 0%, #C9A84C 40%, #8A6420 100%)',
-                        boxShadow: '0 6px 16px rgba(100,60,10,0.3), inset 0 2px 6px rgba(255,255,255,0.4)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        animation: 'sealGlowPulse 4s ease-in-out infinite' // Gentle breathing
-                      }}
+                      className="balloon-seal"
+                      style={{ width: 88, height: 88 }}
+                      aria-label="Open birthday invitation"
                     >
-                      <span style={{
-                        fontFamily: 'var(--font-garamond)', color: '#FFF',
-                        fontSize: 32, fontWeight: 400, letterSpacing: '0.02em',
-                        textShadow: '0 2px 6px rgba(80,40,0,0.6)'
-                      }}>
-                        P <span style={{ fontSize: 16, color: 'rgba(255,255,255,0.8)' }}>&amp;</span> S
-                      </span>
+                      <span style={{ fontSize: 36 }}>🎀</span>
                     </button>
                   </motion.div>
                 )}
               </AnimatePresence>
             </motion.div>
-            
-            {/* Outer soft shadow for the whole envelope to lift it off the background */}
-            <div className="absolute inset-0 rounded-xl pointer-events-none" style={{
-               boxShadow: '0 20px 50px rgba(0,0,0,0.15), 0 4px 15px rgba(0,0,0,0.05)',
-               zIndex: -1
+
+            {/* Box Shadow */}
+            <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{
+              boxShadow: '0 24px 60px rgba(200,50,120,0.25), 0 6px 20px rgba(0,0,0,0.08)',
+              zIndex: -1,
             }}/>
           </motion.div>
 
@@ -282,23 +297,29 @@ const OpeningEnvelopeScreen = ({ onEnter }) => {
               <motion.p
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                 transition={{ delay: 1.5, duration: 1 }}
-                style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic',
-                  color: 'rgba(255,255,255,0.7)', fontSize: 14, marginTop: 40, zIndex: 10 }}
+                style={{
+                  fontFamily: 'var(--font-body)', fontWeight: 700,
+                  color: 'rgba(255,255,255,0.9)', fontSize: 15,
+                  marginTop: 56, zIndex: 10, textAlign: 'center',
+                  textShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                }}
               >
-                Tap the seal to open our invitation
+                🎀 Tap the bow to open your invitation!
               </motion.p>
             )}
             {phase === 'opening' && (
               <motion.p
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic',
-                  color: 'rgba(255,255,255,0.9)', fontSize: 15, marginTop: 40, zIndex: 10 }}
+                style={{
+                  fontFamily: 'var(--font-body)', fontWeight: 700,
+                  color: 'rgba(255,255,255,0.95)', fontSize: 16,
+                  marginTop: 56, zIndex: 10,
+                }}
               >
-                Opening... ✨
+                Opening... 🎉✨
               </motion.p>
             )}
           </AnimatePresence>
-
         </motion.div>
       )}
     </AnimatePresence>

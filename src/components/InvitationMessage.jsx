@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import { weddingData } from '../data/index.js';
 
 const InvitationMessage = () => {
+  const { birthday } = weddingData;
+
   return (
-    <section className="py-16 px-4" style={{ background: 'linear-gradient(180deg, #EDF2ED 0%, #FAF7F0 100%)' }}>
+    <section className="py-16 px-4" style={{ background: 'linear-gradient(180deg, hsl(340,45%,96%) 0%, hsl(275,35%,96%) 100%)' }}>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -12,49 +14,78 @@ const InvitationMessage = () => {
         transition={{ duration: 0.9, ease: [0.4, 0, 0.2, 1] }}
         className="max-w-2xl mx-auto"
       >
-        <div className="invitation-card px-8 py-10 sm:px-12 sm:py-14 text-center relative">
-          {/* Decorative large background ❋ */}
-          <span className="pointer-events-none select-none absolute inset-0 flex items-center justify-center text-[10rem] leading-none"
-            style={{ color: 'rgba(201,168,76,0.04)', zIndex: 0 }}>❋</span>
+        <div className="invitation-card px-8 py-10 sm:px-12 sm:py-14 text-center relative overflow-hidden">
+          {/* Big background watermark */}
+          <span className="pointer-events-none select-none absolute inset-0 flex items-center justify-center"
+            style={{ fontSize: '9rem', lineHeight: 1, color: 'rgba(200,50,120,0.04)', zIndex: 0 }}>
+            🎈
+          </span>
 
           <div className="relative z-10">
-            {/* Top ornament */}
-            <p className="font-lora text-3xl mb-4" style={{ color: 'rgba(201,168,76,0.6)' }}>✿</p>
+            {/* Top emoji row */}
+            <motion.div
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ fontSize: 32, marginBottom: 16 }}
+            >
+              🎀 🎂 🎀
+            </motion.div>
 
             {/* Label */}
-            <p className="font-lora text-xs tracking-[0.35em] uppercase mb-4" style={{ color: 'var(--color-gold-dark)' }}>
-              With Heartfelt Warmth
+            <p style={{
+              fontFamily: 'var(--font-display)', fontWeight: 700,
+              fontSize: 11, letterSpacing: '0.35em', textTransform: 'uppercase',
+              color: 'hsl(340,75%,55%)', marginBottom: 20,
+            }}>
+              💌 You're Invited! 💌
             </p>
 
-            {/* Gold top divider */}
+            {/* Top divider */}
             <div className="flex items-center gap-3 mb-6">
-              <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--color-gold-light))' }} />
-              <span className="text-sm" style={{ color: 'var(--color-gold)' }}>✦</span>
-              <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, var(--color-gold-light), transparent)' }} />
+              <div className="flex-1 h-0.5" style={{ background: 'linear-gradient(90deg, transparent, hsl(340,70%,75%))' }}/>
+              <span style={{ color: 'hsl(340,80%,65%)', fontSize: 16 }}>✦</span>
+              <div className="flex-1 h-0.5" style={{ background: 'linear-gradient(90deg, hsl(340,70%,75%), transparent)' }}/>
             </div>
 
             {/* Message */}
-            <p className="font-lora text-base sm:text-lg leading-8 sm:leading-9" style={{ color: 'rgba(44,24,16,0.8)' }}>
+            <p style={{
+              fontFamily: 'var(--font-body)', fontWeight: 600,
+              fontSize: 'clamp(0.95rem, 2.8vw, 1.1rem)', lineHeight: 1.9,
+              color: 'hsl(275,35%,35%)',
+            }}>
               {weddingData.invitationMessage}
             </p>
 
-            {/* Gold bottom divider */}
-            <div className="flex items-center gap-3 mt-6 mb-4">
-              <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--color-gold-light))' }} />
-              <span className="text-sm" style={{ color: 'var(--color-gold)' }}>✦</span>
-              <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, var(--color-gold-light), transparent)' }} />
+            {/* Bottom divider */}
+            <div className="flex items-center gap-3 mt-6 mb-5">
+              <div className="flex-1 h-0.5" style={{ background: 'linear-gradient(90deg, transparent, hsl(340,70%,75%))' }}/>
+              <span style={{ color: 'hsl(340,80%,65%)', fontSize: 16 }}>✦</span>
+              <div className="flex-1 h-0.5" style={{ background: 'linear-gradient(90deg, hsl(340,70%,75%), transparent)' }}/>
             </div>
 
-            {/* Couple */}
-            <p className="font-serif text-xl font-medium" style={{ color: 'var(--color-choco)' }}>
-              {weddingData.couple.groomName} &amp; {weddingData.couple.brideName}
+            {/* Birthday girl name + date */}
+            <p style={{
+              fontFamily: 'var(--font-accent)',
+              fontSize: 'clamp(1.3rem, 5vw, 1.8rem)',
+              color: 'hsl(275,55%,40%)',
+            }}>
+              {birthday.name}
             </p>
-            <p className="font-lora italic text-sm mt-1" style={{ color: 'var(--color-sage)' }}>
-              {weddingData.wedding.weddingDate}
+            <p style={{
+              fontFamily: 'var(--font-body)', fontWeight: 700,
+              fontSize: 14, marginTop: 6, color: 'hsl(340,70%,55%)',
+            }}>
+              🎂 {birthday.partyDate} · {birthday.partyTime}
             </p>
 
-            {/* Bottom ornament */}
-            <p className="font-lora text-3xl mt-4" style={{ color: 'rgba(201,168,76,0.6)' }}>✿</p>
+            {/* Bottom emoji */}
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ fontSize: 28, marginTop: 20 }}
+            >
+              🎉 🎈 🎉
+            </motion.div>
           </div>
         </div>
       </motion.div>

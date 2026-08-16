@@ -1,5 +1,6 @@
 /**
- * Data index — exports active language data.
- * To switch language, change the import below.
+ * Data index — exports active data.
+ * Switch between birthdayData and weddingData as needed.
  */
-export { weddingData } from './weddingData.en.js';
+export { weddingData } from './birthdayData.js';
+

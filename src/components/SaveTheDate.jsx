@@ -16,7 +16,7 @@ const Sparkles = () => {
         <span key={i} style={{
           position: 'absolute', pointerEvents: 'none',
           top: p.t, left: p.l, right: p.r,
-          fontSize: 10, color: 'rgba(201,168,76,0.7)',
+          fontSize: 12, color: 'hsl(340,80%,65%)',
           animation: `twinkle ${3 + i * 0.4}s ${p.d}s ease-in-out infinite`,
         }}>✦</span>
       ))}
@@ -25,7 +25,9 @@ const Sparkles = () => {
 };
 
 const SaveTheDate = () => {
-  const { couple, wedding, venue } = weddingData;
+  const { birthday, venue } = weddingData;
+  // Parse date parts for big display
+  const dateParts = birthday.partyDate.split(' '); // ["15", "September", "2026"]
 
   return (
     <section className="py-20 px-4 bg-ivory-to-sage overflow-hidden">
@@ -40,36 +42,35 @@ const SaveTheDate = () => {
           <Sparkles />
           <div className="shimmer-bar" />
 
-          {/* Inner ring border */}
+          {/* Double border rings */}
           <div style={{
             position: 'absolute', inset: 12,
-            border: '1.5px solid rgba(160,120,48,0.25)',
-            borderRadius: '1.2rem', pointerEvents: 'none',
+            border: '2px solid rgba(200,100,150,0.2)',
+            borderRadius: '1.4rem', pointerEvents: 'none',
           }}/>
-          {/* Second inner dashed border */}
           <div style={{
-            position: 'absolute', inset: 18,
-            border: '1px dashed rgba(160,120,48,0.18)',
-            borderRadius: '0.9rem', pointerEvents: 'none',
+            position: 'absolute', inset: 20,
+            border: '1.5px dashed rgba(200,100,150,0.15)',
+            borderRadius: '1.1rem', pointerEvents: 'none',
           }}/>
 
-          {/* SAVE THE DATE label */}
+          {/* Label */}
           <motion.p
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 0.3 }}
             style={{
-              fontFamily: 'var(--font-lora)', textTransform: 'uppercase',
-              letterSpacing: '0.45em', fontSize: 10,
-              color: 'rgba(122,88,32,0.85)', marginBottom: 16, textAlign: 'center',
+              fontFamily: 'var(--font-display)', textTransform: 'uppercase', fontWeight: 700,
+              letterSpacing: '0.35em', fontSize: 10,
+              color: 'hsl(275,60%,50%)', marginBottom: 16, textAlign: 'center',
             }}>
-            Save The Date
+            🎉 Save The Date 🎉
           </motion.p>
 
           {/* Top divider */}
           <div className="ornament-row" style={{ marginBottom: 20, maxWidth: 220, margin: '0 auto 20px' }}>
-            <span style={{ color: 'rgba(160,120,48,0.6)', fontSize: 14 }}>✦</span>
+            <span style={{ color: 'hsl(340,80%,65%)', fontSize: 14 }}>🎈</span>
           </div>
 
-          {/* Date with embossed gold effect */}
+          {/* Big date display */}
           <motion.div
             initial={{ opacity: 0, scale: 0.85 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -78,26 +79,27 @@ const SaveTheDate = () => {
             style={{ textAlign: 'center', marginBottom: 20 }}
           >
             <p style={{
-              fontFamily: 'var(--font-garamond)',
-              fontSize: 'clamp(3.5rem, 14vw, 5.5rem)', fontWeight: 400,
-              lineHeight: 0.95, color: '#A07830',
-              textShadow: '1px 2px 2px rgba(255,255,255,0.7), -1px -1px 2px rgba(120,80,20,0.2)',
-              letterSpacing: '-0.02em', marginBottom: 4,
+              fontFamily: 'var(--font-accent)',
+              fontSize: 'clamp(3rem, 13vw, 4.8rem)',
+              lineHeight: 0.95,
+              color: 'hsl(340,80%,58%)',
+              textShadow: '2px 3px 0 rgba(200,50,100,0.12)',
+              letterSpacing: '-0.01em', marginBottom: 4,
             }}>
-              09 July
+              {dateParts[0]} {dateParts[1]}
             </p>
             <p style={{
-              fontFamily: 'var(--font-garamond)',
-              fontSize: 'clamp(1.8rem, 7vw, 2.6rem)', color: '#7A5820',
-              textShadow: '1px 1px 1px rgba(255,255,255,0.6), -1px -1px 1px rgba(120,80,20,0.15)',
-              letterSpacing: '0.08em',
+              fontFamily: 'var(--font-accent)',
+              fontSize: 'clamp(1.6rem, 6vw, 2.4rem)',
+              color: 'hsl(275,60%,50%)',
+              letterSpacing: '0.06em',
             }}>
-              2026
+              {dateParts[2]}
             </p>
           </motion.div>
 
-          {/* Floral center divider */}
-          <div style={{ textAlign: 'center', marginBottom: 16, color: 'rgba(160,120,48,0.5)', fontSize: 20 }}>❋</div>
+          {/* Center divider */}
+          <div style={{ textAlign: 'center', marginBottom: 16, fontSize: 22 }}>🎂</div>
 
           {/* Details */}
           <motion.div
@@ -105,32 +107,38 @@ const SaveTheDate = () => {
             style={{ textAlign: 'center', marginBottom: 22 }}
           >
             <p style={{
-              fontFamily: 'var(--font-lora)', fontStyle: 'italic',
-              fontSize: 'clamp(0.9rem, 2.8vw, 1.1rem)',
-              color: 'rgba(122,88,32,0.9)', marginBottom: 6,
-            }}>Wedding Ceremony</p>
+              fontFamily: 'var(--font-body)', fontWeight: 700,
+              fontSize: 'clamp(0.95rem, 2.8vw, 1.1rem)',
+              color: 'hsl(275,60%,45%)', marginBottom: 6,
+            }}>🎀 Birthday Party 🎀</p>
             <p style={{
-              fontFamily: 'var(--font-lora)',
-              fontSize: 'clamp(0.8rem, 2.2vw, 0.95rem)',
-              color: 'rgba(122,88,32,0.7)',
-            }}>{wedding.weddingTime} · {venue.name}</p>
+              fontFamily: 'var(--font-body)', fontWeight: 600,
+              fontSize: 'clamp(0.85rem, 2.2vw, 0.95rem)',
+              color: 'hsl(340,65%,55%)',
+            }}>{birthday.partyTime} · {venue.name}</p>
           </motion.div>
 
           {/* Bottom divider */}
           <div className="ornament-row" style={{ marginBottom: 18, maxWidth: 200, margin: '0 auto 18px' }}>
-            <span style={{ color: 'rgba(160,120,48,0.5)', fontSize: 13 }}>✦</span>
+            <span style={{ color: 'hsl(340,80%,65%)', fontSize: 13 }}>✦</span>
           </div>
 
-          {/* Names */}
+          {/* Name */}
           <motion.p
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 0.8 }}
             style={{
-              fontFamily: 'var(--font-garamond)', textAlign: 'center',
-              fontSize: 'clamp(1.4rem, 5.5vw, 2rem)', fontWeight: 500,
-              color: 'var(--color-gold-deep)', letterSpacing: '0.02em',
+              fontFamily: 'var(--font-accent)', textAlign: 'center',
+              fontSize: 'clamp(1.3rem, 5vw, 1.8rem)',
+              color: 'hsl(275,60%,42%)', letterSpacing: '0.01em',
             }}>
-            {couple.groomName} <span style={{ fontSize: '0.8em', color: 'var(--color-gold-dark)' }}>&amp;</span> {couple.brideName}
+            {birthday.name}
           </motion.p>
+          <p style={{
+            fontFamily: 'var(--font-body)', fontWeight: 600, textAlign: 'center',
+            fontSize: 13, color: 'hsl(340,70%,60%)', marginTop: 6,
+          }}>
+            Turning {birthday.age}! 🎊
+          </p>
         </div>
       </motion.div>
     </section>
