@@ -14,16 +14,16 @@ export const weddingData = {
     tagline: "Turning THREE! 🎀",
     subtitle: "You're Invited to the Party!",
     mainLine: "Little Princess's 3rd Birthday",
-    partyDate: "15 September 2026",
+    partyDate: "19 September 2026",
     partyTime: "4:00 PM",
-    partyDateISO: "2026-09-15T16:00:00+05:30",
+    partyDateISO: "2026-09-19T16:00:00+05:30",
     timezone: "Asia/Kolkata",
     hashtag: "#PrincessTurns3",
     blessing: "🎀 A Magical Celebration 🎀",
     emoji: "🎀",
   },
 
-  // Reusing 'couple' key for compatibility — maps to birthday girl's parents
+  // Parents and family info (reusing 'couple' key for component compatibility)
   couple: {
     groomName: "Papa",
     groomFullName: "Papa",
@@ -35,20 +35,19 @@ export const weddingData = {
     brideQualification: "The Awesome Mom",
     brideParents: "",
     brideAddress: "",
-    // Birthday girl card
     birthdayGirlName: "Little Princess",
     birthdayGirlAge: "3",
     birthdayGirlNote: "She loves balloons, candy & dancing! 🎈",
   },
 
-  // Reusing 'wedding' key for compatibility
+  // Reusing 'wedding' key for component compatibility
   wedding: {
     title: "Birthday Invitation",
     subtitle: "You're Invited to the Party!",
     mainLine: "Little Princess Turns 3! 🎀",
-    weddingDate: "15 September 2026",
+    weddingDate: "19 September 2026",
     weddingTime: "4:00 PM",
-    weddingDateISO: "2026-09-15T16:00:00+05:30",
+    weddingDateISO: "2026-09-19T16:00:00+05:30",
     timezone: "Asia/Kolkata",
     hashtag: "#PrincessTurns3",
     blessing: "🎈 Come Celebrate With Us! 🎈",
@@ -62,42 +61,42 @@ export const weddingData = {
     mapSearch: "https://www.google.com/maps/search/?api=1&query=Party+Venue",
   },
 
-  // Party schedule / activities (replacing 'events')
+  // Party schedule / activities
   events: [
     {
       id: "arrival",
       title: "Welcome & Games",
       icon: "🎮",
-      date: "Monday, 15 September 2026",
+      date: "Saturday, 19 September 2026",
       time: "4:00 PM",
       venue: "Party Venue Hall",
-      isoDate: "2026-09-15T16:00:00+05:30",
+      isoDate: "2026-09-19T16:00:00+05:30",
       calendarTitle: "Little Princess's 3rd Birthday Party",
-      illustration: "/images/events/party-arrival.png",
+      illustration: "",
       description: "Fun games, activities & balloon time!",
     },
     {
       id: "cake",
       title: "Cake Cutting 🎂",
       icon: "🎂",
-      date: "Monday, 15 September 2026",
+      date: "Saturday, 19 September 2026",
       time: "5:30 PM",
       venue: "Party Venue Hall",
-      isoDate: "2026-09-15T17:30:00+05:30",
+      isoDate: "2026-09-19T17:30:00+05:30",
       calendarTitle: "Cake Cutting – Little Princess's Birthday",
-      illustration: "/images/events/party-cake.png",
+      illustration: "",
       description: "The sweetest moment of the evening!",
     },
     {
       id: "dinner",
       title: "Dinner & Dance 🕺",
       icon: "🍽️",
-      date: "Monday, 15 September 2026",
+      date: "Saturday, 19 September 2026",
       time: "6:30 PM",
       venue: "Party Venue Hall",
-      isoDate: "2026-09-15T18:30:00+05:30",
+      isoDate: "2026-09-19T18:30:00+05:30",
       calendarTitle: "Dinner – Little Princess's Birthday",
-      illustration: "/images/events/party-dinner.png",
+      illustration: "",
       description: "Food, fun & dancing the night away!",
     },
   ],
@@ -123,28 +122,22 @@ export const weddingData = {
     music: "/music/wedding-music.mp3",
     ganpatiImage: "",
     weddingCard: "",
-    groomPhoto: "/images/Groom_photo.png",
-    bridePhoto: "/images/Bride_photo.png",
-    birthdayGirlPhoto: "/images/Bride_photo.png",
-    galleryImages: [
-      "/images/couple_photo1.jpeg",
-      "/images/Couple_photo4.jpeg",
-      "/images/Couple_photo3.jpeg",
-      "/images/Couple_photo2.jpeg",
-      "/images/Couple_photo5.jpeg",
-    ],
+    groomPhoto: "",
+    bridePhoto: "",
+    birthdayGirlPhoto: "",
+    galleryImages: [],
   },
 
   share: {
     whatsappText:
-      "🎉 You're invited to Little Princess's 3rd Birthday Party! 🎀\n15 September 2026 | 4:00 PM | Party Venue Hall\nCome celebrate and make memories! 🎈\n",
+      "🎉 You're invited to Little Princess's 3rd Birthday Party! 🎀\n19 September 2026 | 4:00 PM | Party Venue Hall\nCome celebrate and make memories! 🎈\n",
     websiteUrl: "https://princess-birthday.vercel.app/",
   },
 
   seo: {
     title: "Little Princess's 3rd Birthday 🎀 | You're Invited!",
     description:
-      "You are invited to celebrate Little Princess's 3rd Birthday on 15 September 2026 at Party Venue Hall.",
+      "You are invited to celebrate Little Princess's 3rd Birthday on 19 September 2026 at Party Venue Hall.",
     ogImage: "/images/og-preview.jpeg",
   },
 };

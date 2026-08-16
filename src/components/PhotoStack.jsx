@@ -7,13 +7,17 @@ const PhotoStack = () => {
   const { assets } = weddingData;
   const images = assets.galleryImages || [];
   
-  const displayImages = [
-    images[0] || '/images/placeholder1.jpg',
-    images[1] || '/images/placeholder2.jpg',
-    images[2] || '/images/placeholder3.jpg',
-    images[3] || '/images/placeholder4.jpg',
-    images[4] || '/images/placeholder5.jpg',
+  const galleryPlaceholders = [
+    { emoji: '🍰', color: 'linear-gradient(135deg, hsl(340,85%,90%), hsl(275,70%,90%))' },
+    { emoji: '🎈', color: 'linear-gradient(135deg, hsl(210,80%,90%), hsl(155,65%,90%))' },
+    { emoji: '🎁', color: 'linear-gradient(135deg, hsl(47,95%,90%), hsl(22,85%,90%))' },
+    { emoji: '🍭', color: 'linear-gradient(135deg, hsl(340,85%,90%), hsl(47,95%,90%))' },
+    { emoji: '🎨', color: 'linear-gradient(135deg, hsl(275,70%,90%), hsl(210,80%,90%))' },
   ];
+
+  const displayImages = Array.from({ length: 5 }).map((_, i) => {
+    return images[i] || galleryPlaceholders[i];
+  });
 
   const subtitles = [
     "Happy Memories! 🎈",
@@ -49,7 +53,9 @@ const PhotoStack = () => {
 
   const handleCardClick = (index, diff) => {
     if (diff === 0) {
-      setLightboxImg(displayImages[index]);
+      if (typeof displayImages[index] === 'string') {
+        setLightboxImg(displayImages[index]);
+      }
     } else {
       setActiveIndex(index);
     }
@@ -218,18 +224,27 @@ const PhotoStack = () => {
                 <div 
                   style={{ 
                     width: '100%', height: '100%', 
-                    background: 'linear-gradient(135deg, #FDF9F2, #EBF0EB)', 
+                    background: typeof src === 'string' ? 'linear-gradient(135deg, #FDF9F2, #EBF0EB)' : src.color, 
                     overflow: 'hidden', 
                     borderRadius: 4,
-                    position: 'relative'
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
-                  <img 
-                    src={src} 
-                    alt={`Memory ${index + 1}`} 
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} 
-                    loading={isFront ? "eager" : "lazy"}
-                  />
+                  {typeof src === 'string' ? (
+                    <img 
+                      src={src} 
+                      alt={`Memory ${index + 1}`} 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} 
+                      loading={isFront ? "eager" : "lazy"}
+                    />
+                  ) : (
+                    <span style={{ fontSize: '4.5rem', filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.08))' }}>
+                      {src.emoji}
+                    </span>
+                  )}
                 </div>
                 {/* Subtitle */}
                 <p 
